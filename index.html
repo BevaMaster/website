@@ -2,57 +2,122 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maintenance</title>
+  <title>Game X Campur (Tic Tac Toe)</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #f2f2f2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f8ff;
+      margin-top: 50px;
     }
 
-    .marquee-container {
-      background-color: #ffeeba;
-      padding: 20px;
-      border: 2px solid #f0ad4e;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    h1 {
+      color: #333;
     }
 
-    .marquee {
-      white-space: nowrap;
-      overflow: hidden;
-      position: relative;
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 5px;
+      margin: 20px auto;
+      width: 320px;
     }
 
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-text 10s linear infinite;
-      font-size: 20px;
-      color: #856404;
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: #fff;
+      border: 2px solid #444;
+      font-size: 2.5em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    @keyframes scroll-text {
-      0% {
-        transform: translateX(0%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
+    .cell:hover {
+      background-color: #e0f7fa;
+    }
+
+    .status {
+      margin: 20px;
+      font-size: 1.2em;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="marquee-container">
-    <div class="marquee">
-      <span>Website sedang maintenance (admin sukistore lagi benerin)</span>
-    </div>
-  </div>
+
+  <h1>Game X Campur (Tic Tac Toe)</h1>
+  <div class="status" id="status">Giliran: X</div>
+  <div class="board" id="board"></div>
+  <button onclick="resetGame()">Reset Game</button>
+
+  <script>
+    const board = document.getElementById("board");
+    const statusText = document.getElementById("status");
+    let currentPlayer = "X";
+    let gameActive = true;
+    let cells = Array(9).fill("");
+
+    function createBoard() {
+      board.innerHTML = "";
+      cells.forEach((cell, index) => {
+        const cellElement = document.createElement("div");
+        cellElement.classList.add("cell");
+        cellElement.dataset.index = index;
+        cellElement.addEventListener("click", handleClick);
+        board.appendChild(cellElement);
+      });
+    }
+
+    function handleClick(e) {
+      const index = e.target.dataset.index;
+
+      if (!gameActive || cells[index] !== "") return;
+
+      cells[index] = currentPlayer;
+      e.target.textContent = currentPlayer;
+
+      if (checkWinner()) {
+        statusText.textContent = `Pemenang: ${currentPlayer}!`;
+        gameActive = false;
+      } else if (!cells.includes("")) {
+        statusText.textContent = "Hasil: Seri!";
+        gameActive = false;
+      } else {
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+        statusText.textContent = `Giliran: ${currentPlayer}`;
+      }
+    }
+
+    function checkWinner() {
+      const winCombos = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+      ];
+
+      return winCombos.some(combo => {
+        const [a, b, c] = combo;
+        return cells[a] && cells[a] === cells[b] && cells[a] === cells[c];
+      });
+    }
+
+    function resetGame() {
+      currentPlayer = "X";
+      gameActive = true;
+      cells = Array(9).fill("");
+      statusText.textContent = `Giliran: ${currentPlayer}`;
+      createBoard();
+    }
+
+    createBoard();
+  </script>
 </body>
 </html>
