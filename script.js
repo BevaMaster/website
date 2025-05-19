@@ -1,10 +1,9 @@
-const users = JSON.parse(localStorage.getItem('users') || '{}');
+// Ambil data users dari localStorage atau buat objek baru
+let users = JSON.parse(localStorage.getItem('users')) || {};
 
 const formTitle = document.getElementById('form-title');
 const actionBtn = document.getElementById('action-btn');
 const toggleText = document.getElementById('toggle-text');
-const toggleLink = document.getElementById('toggle-link');
-
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
 
@@ -12,6 +11,14 @@ let isLogin = true;
 
 function saveUsers() {
   localStorage.setItem('users', JSON.stringify(users));
+}
+
+function bindToggleLink() {
+  const toggleLink = document.getElementById('toggle-link');
+  toggleLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchForm();
+  });
 }
 
 function switchForm() {
@@ -28,17 +35,8 @@ function switchForm() {
   usernameInput.value = '';
   passwordInput.value = '';
 
-  // Re-attach event listener for new toggle link
-  document.getElementById('toggle-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    switchForm();
-  });
+  bindToggleLink(); // re-bind event listener ke toggle link
 }
-
-toggleLink.addEventListener('click', (e) => {
-  e.preventDefault();
-  switchForm();
-});
 
 actionBtn.addEventListener('click', () => {
   const username = usernameInput.value.trim();
@@ -50,7 +48,7 @@ actionBtn.addEventListener('click', () => {
   }
 
   if (isLogin) {
-    // login
+    // Login
     if (users[username] && users[username] === password) {
       alert('Login berhasil!');
       localStorage.setItem('loggedInUser', username);
@@ -59,7 +57,7 @@ actionBtn.addEventListener('click', () => {
       alert('Username atau password salah!');
     }
   } else {
-    // register
+    // Register
     if (users[username]) {
       alert('Username sudah terdaftar!');
     } else {
@@ -70,6 +68,9 @@ actionBtn.addEventListener('click', () => {
     }
   }
 });
+
+// Bind toggle link saat halaman pertama load
+bindToggleLink();
 
 // Jika sudah login, langsung redirect ke store
 if (localStorage.getItem('loggedInUser')) {
