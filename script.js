@@ -1,4 +1,4 @@
-// Ambil data users dari localStorage atau buat objek baru
+// --- LOGIN & REGISTER --- //
 let users = JSON.parse(localStorage.getItem('users')) || {};
 
 const formTitle = document.getElementById('form-title');
@@ -35,7 +35,7 @@ function switchForm() {
   usernameInput.value = '';
   passwordInput.value = '';
 
-  bindToggleLink(); // re-bind event listener ke toggle link
+  bindToggleLink();
 }
 
 actionBtn.addEventListener('click', () => {
@@ -69,10 +69,24 @@ actionBtn.addEventListener('click', () => {
   }
 });
 
-// Bind toggle link saat halaman pertama load
 bindToggleLink();
 
-// Jika sudah login, langsung redirect ke store
 if (localStorage.getItem('loggedInUser')) {
   window.location.href = 'store.html';
 }
+
+// --- GYROSCOPE BACKGROUND MOVEMENT --- //
+
+window.addEventListener('deviceorientation', (event) => {
+  const maxOffset = 20;
+
+  let xOffset = (event.gamma / 90) * maxOffset;
+  let yOffset = (event.beta / 90) * maxOffset;
+
+  if (xOffset > maxOffset) xOffset = maxOffset;
+  if (xOffset < -maxOffset) xOffset = -maxOffset;
+  if (yOffset > maxOffset) yOffset = maxOffset;
+  if (yOffset < -maxOffset) yOffset = -maxOffset;
+
+  document.body.style.backgroundPosition = `calc(50% + ${xOffset}px) calc(50% + ${yOffset}px)`;
+});
