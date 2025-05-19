@@ -2,99 +2,89 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Game X Campur - Bocil Kematian</title>
+  <title>Game O-X</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      background: linear-gradient(135deg, #000000, #430089);
-      color: #fff;
+      background: linear-gradient(145deg, #eef2f3, #8e9eab);
+      color: #333;
       margin: 0;
-      padding-top: 30px;
+      padding-top: 40px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     h1 {
-      color: #ff4081;
-      text-shadow: 0 0 10px #ff4081;
-      animation: pulse 2s infinite;
+      margin-bottom: 10px;
+      font-size: 2.5em;
+      color: #444;
+      transition: all 0.3s ease;
     }
 
-    @keyframes pulse {
-      0% { text-shadow: 0 0 5px #ff4081; }
-      50% { text-shadow: 0 0 20px #ff4081; }
-      100% { text-shadow: 0 0 5px #ff4081; }
+    .status {
+      margin-bottom: 20px;
+      font-size: 1.2em;
+      color: #222;
+      font-weight: bold;
     }
 
     .board {
       display: grid;
       grid-template-columns: repeat(3, 100px);
       gap: 10px;
-      margin: 20px auto;
-      width: 320px;
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
     }
 
     .cell {
       width: 100px;
       height: 100px;
-      background-color: rgba(255,255,255,0.1);
-      border: 2px solid #fff;
+      background-color: #fff;
+      border-radius: 10px;
       font-size: 2.5em;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.3s, transform 0.2s;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, background-color 0.3s;
     }
 
     .cell:hover {
-      background-color: rgba(255,255,255,0.2);
+      background-color: #e0f7fa;
       transform: scale(1.05);
     }
 
-    .status {
-      margin: 20px;
-      font-size: 1.3em;
-      color: #ffeb3b;
-    }
-
     button {
-      padding: 10px 20px;
+      padding: 10px 25px;
       font-size: 16px;
-      background-color: #ff4081;
-      border: none;
+      background-color: #607d8b;
       color: white;
-      cursor: pointer;
+      border: none;
       border-radius: 8px;
-      box-shadow: 0 0 10px #ff4081;
-      transition: 0.3s;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s;
     }
 
     button:hover {
-      background-color: #e91e63;
-    }
-
-    audio {
-      display: none;
+      background-color: #455a64;
     }
   </style>
 </head>
 <body>
 
-  <h1>X Campur - Bocil Kematian Mode</h1>
+  <h1>Game O-X</h1>
   <div class="status" id="status">Giliran: X</div>
   <div class="board" id="board"></div>
   <button onclick="resetGame()">Reset Game</button>
 
-  <!-- Musik Bocil Kematian (versi YouTube embed mp3 atau file lokal) -->
-  <audio id="bgMusic" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    <!-- Ganti link di atas ke MP3 bocil kematian -->
-  </audio>
-
   <script>
     const board = document.getElementById("board");
     const statusText = document.getElementById("status");
-    const music = document.getElementById("bgMusic");
 
     let currentPlayer = "X";
     let gameActive = true;
@@ -112,31 +102,24 @@
     }
 
     function handleClick(e) {
-      if (!gameActive) return;
-
       const index = e.target.dataset.index;
 
-      if (cells[index] !== "") return;
+      if (!gameActive || cells[index] !== "") return;
 
       cells[index] = currentPlayer;
       e.target.textContent = currentPlayer;
-      e.target.style.color = currentPlayer === "X" ? "#ffeb3b" : "#00e5ff";
+      e.target.style.color = currentPlayer === "X" ? "#ff5722" : "#2196f3";
 
       if (checkWinner()) {
         statusText.textContent = `Pemenang: ${currentPlayer}!`;
         gameActive = false;
-        statusText.style.color = "#00ff00";
-        return;
-      }
-
-      if (!cells.includes("")) {
+      } else if (!cells.includes("")) {
         statusText.textContent = "Hasil: Seri!";
         gameActive = false;
-        return;
+      } else {
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+        statusText.textContent = `Giliran: ${currentPlayer}`;
       }
-
-      currentPlayer = currentPlayer === "X" ? "O" : "X";
-      statusText.textContent = `Giliran: ${currentPlayer}`;
     }
 
     function checkWinner() {
@@ -157,16 +140,8 @@
       gameActive = true;
       cells = Array(9).fill("");
       statusText.textContent = `Giliran: ${currentPlayer}`;
-      statusText.style.color = "#ffeb3b";
       createBoard();
     }
-
-    // Start music after user interacts
-    document.body.addEventListener("click", () => {
-      if (music.paused) {
-        music.play();
-      }
-    }, { once: true });
 
     createBoard();
   </script>
