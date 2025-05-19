@@ -5,8 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Store</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Tambahan style untuk form ganti password */
+    #changePassForm {
+      background: rgba(0,0,0,0.7);
+      border: 2px solid white;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 320px;
+      margin: 20px auto;
+      display: none;
+      color: white;
+    }
+    #changePassForm input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+    }
+    #changePassForm button {
+      background-color: #555;
+      border: 2px solid white;
+      border-radius: 15px;
+      color: white;
+      font-weight: bold;
+      padding: 10px;
+      cursor: pointer;
+      width: 100%;
+    }
+    #changePassForm button:hover {
+      background-color: #777;
+    }
+    #user-info {
+      text-align: right;
+      margin-bottom: 20px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    #user-info button {
+      margin-left: 10px;
+      background-color: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    #user-info button:hover {
+      background-color: white;
+      color: black;
+    }
+  </style>
 </head>
 <body>
+  <div id="user-info">
+    Logged in as: <span id="usernameDisplay"></span>
+    <button id="btnChangePass">Ganti Password</button>
+    <button id="btnLogout">Logout</button>
+  </div>
+
   <div class="store-container">
     <div class="product">
       <img src="https://via.placeholder.com/250x150?text=Produk+1" alt="Produk 1" />
@@ -28,19 +87,95 @@
     </div>
   </div>
 
-  <script>
-    function openWhatsApp() {
-      const phone = '082182572850';
-      // Format nomor pakai kode negara (contoh +62 untuk Indonesia)
-      const waNumber = '+6282182572850';
-      const url = `https://wa.me/${waNumber.replace(/\D/g,'')}`;
-      window.open(url, '_blank');
-    }
+  <!-- Form ganti password -->
+  <div id="changePassForm">
+    <h3>Ganti Password</h3>
+    <input type="password" id="oldPass" placeholder="Password Lama" />
+    <input type="password" id="newPass" placeholder="Password Baru" />
+    <input type="password" id="confirmNewPass" placeholder="Konfirmasi Password Baru" />
+    <button id="btnSubmitChange">Simpan</button>
+    <button id="btnCancelChange" style="margin-top:10px; background-color:#aa2222; border-color:#aa2222;">Batal</button>
+  </div>
 
-    // Cek login, jika belum login redirect ke login
-    if (!localStorage.getItem('loggedInUser')) {
+  <script>
+    // Check login
+    const loggedUser = localStorage.getItem('loggedInUser');
+    if (!loggedUser) {
       alert('Silakan login dulu!');
       window.location.href = 'index.html';
+    }
+
+    document.getElementById('usernameDisplay').textContent = loggedUser;
+
+    // Logout
+    document.getElementById('btnLogout').addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      alert('Logout berhasil');
+      window.location.href = 'index.html';
+    });
+
+    // Show/hide form ganti password
+    const changePassForm = document.getElementById('changePassForm');
+    const btnChangePass = document.getElementById('btnChangePass');
+    const btnCancelChange = document.getElementById('btnCancelChange');
+    const btnSubmitChange = document.getElementById('btnSubmitChange');
+
+    btnChangePass.addEventListener('click', () => {
+      changePassForm.style.display = 'block';
+    });
+
+    btnCancelChange.addEventListener('click', () => {
+      changePassForm.style.display = 'none';
+      clearChangePassForm();
+    });
+
+    function clearChangePassForm() {
+      document.getElementById('oldPass').value = '';
+      document.getElementById('newPass').value = '';
+      document.getElementById('confirmNewPass').value = '';
+    }
+
+    // Submit ganti password
+    btnSubmitChange.addEventListener('click', () => {
+      const oldPass = document.getElementById('oldPass').value;
+      const newPass = document.getElementById('newPass').value;
+      const confirmNewPass = document.getElementById('confirmNewPass').value;
+
+      if (!oldPass || !newPass || !confirmNewPass) {
+        alert('Semua field harus diisi!');
+        return;
+      }
+      if (newPass !== confirmNewPass) {
+        alert('Password baru dan konfirmasi tidak sama!');
+        return;
+      }
+
+      // Ambil data users dari localStorage
+      let users = JSON.parse(localStorage.getItem('users')) || {};
+
+      if (!users[loggedUser]) {
+        alert('User tidak ditemukan!');
+        return;
+      }
+
+      if (users[loggedUser] !== oldPass) {
+        alert('Password lama salah!');
+        return;
+      }
+
+      // Update password
+      users[loggedUser] = newPass;
+      localStorage.setItem('users', JSON.stringify(users));
+
+      alert('Password berhasil diubah!');
+      clearChangePassForm();
+      changePassForm.style.display = 'none';
+    });
+
+    // WhatsApp tombol
+    function openWhatsApp() {
+      const waNumber = '+6282182572850'; // nomor sudah lengkap +62
+      window.open(`https://wa.me/${waNumber.replace(/\D/g, '')}`, '_blank');
     }
   </script>
 </body>
