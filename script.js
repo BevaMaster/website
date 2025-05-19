@@ -1,35 +1,92 @@
-btnSubmitChange.addEventListener('click', () => {
-  const oldPass = document.getElementById('oldPass').value;
-  const newPass = document.getElementById('newPass').value;
-  const confirmNewPass = document.getElementById('confirmNewPass').value;
+// --- LOGIN & REGISTER --- //
+let users = JSON.parse(localStorage.getItem('users')) || {};
 
-  if (!oldPass || !newPass || !confirmNewPass) {
-    alert('Semua field harus diisi!');
-    return;
-  }
-  if (newPass !== confirmNewPass) {
-    alert('Password baru dan konfirmasi tidak sama!');
-    return;
-  }
+const formTitle = document.getElementById('form-title');
+const actionBtn = document.getElementById('action-btn');
+const toggleText = document.getElementById('toggle-text');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
 
-  let users = JSON.parse(localStorage.getItem('users')) || {};
+let isLogin = true;
 
-  if (!users[loggedUser]) {
-    alert('User tidak ditemukan!');
-    return;
-  }
-
-  if (users[loggedUser] !== oldPass) {
-    alert('Password lama salah!');
-    return;
-  }
-
-  users[loggedUser] = newPass;
+function saveUsers() {
   localStorage.setItem('users', JSON.stringify(users));
+}
 
-  alert('Password berhasil diubah! Silakan login ulang.');
+function bindToggleLink() {
+  const toggleLink = document.getElementById('toggle-link');
+  toggleLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchForm();
+  });
+}
 
-  // Logout otomatis setelah ganti password
-  localStorage.removeItem('loggedInUser');
-  window.location.href = 'index.html';
+function switchForm() {
+  isLogin = !isLogin;
+  if (isLogin) {
+    formTitle.textContent = 'Login';
+    actionBtn.textContent = 'Login';
+    toggleText.innerHTML = 'Belum punya akun? <a href="#" id="toggle-link">Register</a>';
+  } else {
+    formTitle.textContent = 'Register';
+    actionBtn.textContent = 'Register';
+    toggleText.innerHTML = 'Sudah punya akun? <a href="#" id="toggle-link">Login</a>';
+  }
+  usernameInput.value = '';
+  passwordInput.value = '';
+
+  bindToggleLink();
+}
+
+actionBtn.addEventListener('click', () => {
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!username || !password) {
+    alert('Masukkan username dan password!');
+    return;
+  }
+
+  if (isLogin) {
+    // Login
+    if (users[username] && users[username] === password) {
+      alert('Login berhasil!');
+      localStorage.setItem('loggedInUser', username);
+      window.location.href = 'store.html';
+    } else {
+      alert('Username atau password salah!');
+    }
+  } else {
+    // Register
+    if (users[username]) {
+      alert('Username sudah terdaftar!');
+    } else {
+      users[username] = password;
+      saveUsers();
+      alert('Registrasi berhasil! Silakan login.');
+      switchForm();
+    }
+  }
+});
+
+bindToggleLink();
+
+if (localStorage.getItem('loggedInUser')) {
+  window.location.href = 'store.html';
+}
+
+// --- GYROSCOPE BACKGROUND MOVEMENT --- //
+
+window.addEventListener('deviceorientation', (event) => {
+  const maxOffset = 20;
+
+  let xOffset = (event.gamma / 90) * maxOffset;
+  let yOffset = (event.beta / 90) * maxOffset;
+
+  if (xOffset > maxOffset) xOffset = maxOffset;
+  if (xOffset < -maxOffset) xOffset = -maxOffset;
+  if (yOffset > maxOffset) yOffset = maxOffset;
+  if (yOffset < -maxOffset) yOffset = -maxOffset;
+
+  document.body.style.backgroundPosition = `calc(50% + ${xOffset}px) calc(50% + ${yOffset}px)`;
 });
