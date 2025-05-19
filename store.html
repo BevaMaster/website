@@ -6,7 +6,7 @@
   <title>Store</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Tambahan style untuk form ganti password */
+    /* Style tambahan untuk form ganti password */
     #changePassForm {
       background: rgba(0,0,0,0.7);
       border: 2px solid white;
@@ -98,7 +98,7 @@
   </div>
 
   <script>
-    // Check login
+    // Cek user login, redirect kalau tidak ada
     const loggedUser = localStorage.getItem('loggedInUser');
     if (!loggedUser) {
       alert('Silakan login dulu!');
@@ -135,7 +135,6 @@
       document.getElementById('confirmNewPass').value = '';
     }
 
-    // Submit ganti password
     btnSubmitChange.addEventListener('click', () => {
       const oldPass = document.getElementById('oldPass').value;
       const newPass = document.getElementById('newPass').value;
@@ -150,7 +149,6 @@
         return;
       }
 
-      // Ambil data users dari localStorage
       let users = JSON.parse(localStorage.getItem('users')) || {};
 
       if (!users[loggedUser]) {
@@ -163,18 +161,19 @@
         return;
       }
 
-      // Update password
       users[loggedUser] = newPass;
       localStorage.setItem('users', JSON.stringify(users));
 
-      alert('Password berhasil diubah!');
-      clearChangePassForm();
-      changePassForm.style.display = 'none';
+      alert('Password berhasil diubah! Silakan login ulang.');
+
+      // Logout otomatis setelah ganti password
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'index.html';
     });
 
-    // WhatsApp tombol
+    // Tombol WhatsApp buka chat ke nomor tertentu
     function openWhatsApp() {
-      const waNumber = '+6282182572850'; // nomor sudah lengkap +62
+      const waNumber = '+6282182572850';
       window.open(`https://wa.me/${waNumber.replace(/\D/g, '')}`, '_blank');
     }
   </script>
