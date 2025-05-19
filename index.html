@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Website 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login/Register</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Selamat Datang</h1>
-    <a href="login.html">Login</a> | 
-    <a href="register.html">Register</a>
+  <div class="container" id="auth-container">
+    <h2 id="form-title">Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="action-btn">Login</button>
+    <p id="toggle-text">Belum punya akun? <a href="#" id="toggle-link">Register</a></p>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
