@@ -1,10 +1,19 @@
-body {
+/* style.css */
+
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: Arial, sans-serif;
-  background: #000;
-  color: #fff;
+  color: white;
   overflow: hidden;
 }
+
+body {
+  background: url('img.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
 .container {
   position: relative;
   z-index: 1;
@@ -12,30 +21,17 @@ body {
   margin: 100px auto;
   text-align: center;
 }
-form input {
+
+input {
   width: 90%;
   padding: 10px;
   margin: 10px 0;
 }
+
 button {
   padding: 10px 20px;
   background: #fff;
   color: #000;
   border: none;
-}
-body::before {
-  content: "";
-  position: fixed;
-  width: 200%;
-  height: 200%;
-  background: repeating-conic-gradient(#fff 0deg 10deg, #000 10deg 20deg);
-  animation: spin 10s linear infinite;
-  z-index: 0;
-  top: -50%;
-  left: -50%;
-  opacity: 0.1;
-}
-@keyframes spin {
-  0% { transform: rotate(0); }
-  100% { transform: rotate(360deg); }
+  cursor: pointer;
 }
