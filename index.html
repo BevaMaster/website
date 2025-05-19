@@ -2,23 +2,33 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Game X Campur (Tic Tac Toe)</title>
+  <title>Game X Campur - Bocil Kematian</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      background-color: #f0f8ff;
-      margin-top: 50px;
+      background: linear-gradient(135deg, #000000, #430089);
+      color: #fff;
+      margin: 0;
+      padding-top: 30px;
     }
 
     h1 {
-      color: #333;
+      color: #ff4081;
+      text-shadow: 0 0 10px #ff4081;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { text-shadow: 0 0 5px #ff4081; }
+      50% { text-shadow: 0 0 20px #ff4081; }
+      100% { text-shadow: 0 0 5px #ff4081; }
     }
 
     .board {
       display: grid;
       grid-template-columns: repeat(3, 100px);
-      grid-gap: 5px;
+      gap: 10px;
       margin: 20px auto;
       width: 320px;
     }
@@ -26,41 +36,66 @@
     .cell {
       width: 100px;
       height: 100px;
-      background-color: #fff;
-      border: 2px solid #444;
+      background-color: rgba(255,255,255,0.1);
+      border: 2px solid #fff;
       font-size: 2.5em;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: background 0.3s, transform 0.2s;
     }
 
     .cell:hover {
-      background-color: #e0f7fa;
+      background-color: rgba(255,255,255,0.2);
+      transform: scale(1.05);
     }
 
     .status {
       margin: 20px;
-      font-size: 1.2em;
+      font-size: 1.3em;
+      color: #ffeb3b;
     }
 
     button {
       padding: 10px 20px;
       font-size: 16px;
+      background-color: #ff4081;
+      border: none;
+      color: white;
       cursor: pointer;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ff4081;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #e91e63;
+    }
+
+    audio {
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <h1>Game X Campur (Tic Tac Toe)</h1>
+  <h1>X Campur - Bocil Kematian Mode</h1>
   <div class="status" id="status">Giliran: X</div>
   <div class="board" id="board"></div>
   <button onclick="resetGame()">Reset Game</button>
 
+  <!-- Musik Bocil Kematian (versi YouTube embed mp3 atau file lokal) -->
+  <audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <!-- Ganti link di atas ke MP3 bocil kematian -->
+  </audio>
+
   <script>
     const board = document.getElementById("board");
     const statusText = document.getElementById("status");
+    const music = document.getElementById("bgMusic");
+
     let currentPlayer = "X";
     let gameActive = true;
     let cells = Array(9).fill("");
@@ -77,23 +112,31 @@
     }
 
     function handleClick(e) {
+      if (!gameActive) return;
+
       const index = e.target.dataset.index;
 
-      if (!gameActive || cells[index] !== "") return;
+      if (cells[index] !== "") return;
 
       cells[index] = currentPlayer;
       e.target.textContent = currentPlayer;
+      e.target.style.color = currentPlayer === "X" ? "#ffeb3b" : "#00e5ff";
 
       if (checkWinner()) {
         statusText.textContent = `Pemenang: ${currentPlayer}!`;
         gameActive = false;
-      } else if (!cells.includes("")) {
+        statusText.style.color = "#00ff00";
+        return;
+      }
+
+      if (!cells.includes("")) {
         statusText.textContent = "Hasil: Seri!";
         gameActive = false;
-      } else {
-        currentPlayer = currentPlayer === "X" ? "O" : "X";
-        statusText.textContent = `Giliran: ${currentPlayer}`;
+        return;
       }
+
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+      statusText.textContent = `Giliran: ${currentPlayer}`;
     }
 
     function checkWinner() {
@@ -114,8 +157,16 @@
       gameActive = true;
       cells = Array(9).fill("");
       statusText.textContent = `Giliran: ${currentPlayer}`;
+      statusText.style.color = "#ffeb3b";
       createBoard();
     }
+
+    // Start music after user interacts
+    document.body.addEventListener("click", () => {
+      if (music.paused) {
+        music.play();
+      }
+    }, { once: true });
 
     createBoard();
   </script>
