@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  width: 300px;
+  margin: 100px auto;
+  text-align: center;
+}
+form input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+}
+button {
+  padding: 10px 20px;
+  background: #fff;
+  color: #000;
+  border: none;
+}
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: repeating-conic-gradient(#fff 0deg 10deg, #000 10deg 20deg);
+  animation: spin 10s linear infinite;
+  z-index: 0;
+  top: -50%;
+  left: -50%;
+  opacity: 0.1;
+}
+@keyframes spin {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
