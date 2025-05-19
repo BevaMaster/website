@@ -14,7 +14,7 @@ document.getElementById("loginForm")?.addEventListener("submit", function(e) {
   const savedPassword = localStorage.getItem(username);
   if (savedPassword === password) {
     alert("Login berhasil!");
-    window.location.href = "../website2/contact.html";
+    window.location.href = "../website2/store.html";
   } else {
     alert("Username atau password salah.");
   }
