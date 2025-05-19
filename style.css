@@ -9,6 +9,10 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* Biar background bisa bergeser */
+  background-position: center center;
+  transition: background-position 0.1s ease-out;
 }
 
 /* Container transparan dengan border bulat */
