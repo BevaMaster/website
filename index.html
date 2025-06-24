@@ -3,132 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SukiStore - Minecraft Store</title>
+  <title>SukiStore</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    body, html {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0f0f1a;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
       color: white;
+      overflow-x: hidden;
     }
-    header {
-      padding: 60px 20px;
-      text-align: center;
-      background: linear-gradient(135deg, #0f0f1a, #1c1c2e);
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(-45deg, #0d1a36, #192d55, #0d1a36, #142944);
+      background-size: 400% 400%;
+      animation: moveBG 20s ease infinite;
+      z-index: -1;
     }
-    h1 {
-      font-size: 3em;
-      margin-bottom: 10px;
+
+    @keyframes moveBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-    p {
+
+    .container {
       max-width: 600px;
       margin: auto;
-      font-size: 1.1em;
+      padding: 20px;
     }
-    .btn-group {
-      margin-top: 30px;
-    }
-    .btn {
-      background: #0b5ed7;
-      color: white;
-      padding: 12px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .btn:hover {
-      background: #084298;
-    }
-    section {
-      padding: 40px 20px;
-      background-color: #141421;
-    }
+
     .card {
-      background: #1f1f2e;
+      background: rgba(0,0,0,0.5);
       border-radius: 12px;
       padding: 20px;
-      margin: 20px auto;
-      max-width: 600px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
     }
-    h2 {
-      color: #00bfff;
+
+    h2, h3 {
+      margin-top: 0;
     }
-    .price-item {
-      margin-bottom: 10px;
+
+    .price {
+      font-size: 24px;
+      color: #f9b000;
+      font-weight: bold;
     }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #0f0f1a;
-      font-size: 0.9em;
-      color: #aaa;
+
+    .info {
+      margin: 6px 0;
+    }
+
+    .warning {
+      background: rgba(255,255,0,0.1);
+      padding: 10px;
+      border-radius: 6px;
+      color: #ffcc00;
+      margin-top: 10px;
+    }
+
+    a {
+      color: #bbdefb;
+      text-decoration: underline;
+    }
+
+    .clickable {
+      display: block;
+      padding: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      text-decoration: none;
+      color: white;
+      transition: background 0.3s;
+    }
+
+    .clickable:hover {
+      background: rgba(255,255,255,0.2);
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <h1>SukiStore</h1>
-    <p>Tempat trade Minecraft dengan harga terjangkau dan layanan stuck/biji. Hanya di "PurgeHC"</p>
-    <div class="btn-group">
-      <a href="https://wa.me/6282182572850?text=Halo%20admin%2C%20saya%20mau%20tanya%20tentang%20item%20lainnya%20di%20SukiStore" class="btn">Hubungi Admin</a>
-    </div>
-  </header>
-
-  <section>
+  <div class="container">
     <div class="card">
-      <h2>Harga Stuck NET</h2>
-      <div class="price-item">1 Net: 2s</div>
-      <div class="price-item">2 Net: 4s</div>
-      <div class="price-item">3 Net: 6s</div>
-      <div class="price-item">4 Net: 8s</div>
-      <div class="price-item">5 Net: 10s</div>
+      <h2>📋 LAPORKAN MASALAH</h2>
+      <ul>
+        <li>Data akun tidak muncul setelah membayar.</li>
+        <li>Claim garansi server down.</li>
+        <li>Data panel hilang atau lupa password.</li>
+      </ul>
+      <div class="warning">
+        ⚠️ Wajib Membawa Bukti Transfer, Screenshot Data Akun (jika ada), dan Alamat Gmail yang tercantum.
+      </div>
+      <p><a href="https://wa.me/6282182572850" target="_blank">Hubungi Admin</a></p>
     </div>
 
     <div class="card">
-      <h2>Harga Egg Ender</h2>
-      <div class="price-item">1 EG: ???</div>
-      <div class="price-item">2 EG: ???</div>
+      <h2>🚀 TOKO PANEL PTERODACTYL</h2>
+      <h3>SukiStore</h3>
+      <p><strong>SELAMAT DATANG</strong><br>Beli panel dengan cepat dan aman melalui website</p>
     </div>
 
     <div class="card">
-      <h2>Diamond & Emeralds</h2>
-      <div class="price-item">1 DNAME: 10 Biji</div>
-      <div class="price-item">2 DNAME: 20 Biji</div>
-      <div class="price-item">3 DNAME: 30 Biji</div>
-      <div class="price-item">4 DNAME: 35 Biji</div>
-      <div class="price-item">5 DNAME: 40 Biji</div>
+      <h3>✨ Pilih Paket Panel Anda ✨</h3>
+
+      <a class="clickable" href="https://wa.me/6282182572850?text=Saya%20ingin%20beli%20Panel%201GB">
+        <h3>PANEL BOT 1GB</h3>
+        <div class="price">Rp 2.000</div>
+        <div class="info">🕒 Masa Aktif 1 Bulan</div>
+        <div class="info">🛠️ Garansi 10 Hari</div>
+        <div class="info">💾 RAM: 1000 MB</div>
+        <div class="info">📦 Disk: 1000 MB</div>
+        <div class="info">⚙️ CPU: 40%</div>
+      </a>
+
+      <a class="clickable" href="https://wa.me/6282182572850?text=Saya%20ingin%20beli%20Panel%202GB">
+        <h3>PANEL BOT 2GB</h3>
+        <div class="price">Rp 4.000</div>
+        <div class="info">🕒 Masa Aktif 1 Bulan</div>
+        <div class="info">🛠️ Garansi 10 Hari</div>
+        <div class="info">💾 RAM: 2000 MB</div>
+        <div class="info">📦 Disk: 2000 MB</div>
+        <div class="info">⚙️ CPU: 80%</div>
+      </a>
+
+      <!-- Tambahkan card lainnya di sini juga pakai class clickable dan href ke WA -->
+
     </div>
-
-    <div class="card">
-      <h2>Iron & Gold</h2>
-      <div class="price-item">1 Gold/Iron: 8 Biji</div>
-      <div class="price-item">2 Gold/Iron: 11 Biji</div>
-      <div class="price-item">3 Gold/Iron: 14 Biji</div>
-      <div class="price-item">4 Gold/Iron: 21 Biji</div>
-      <div class="price-item">5 Gold/Iron: 28 Biji</div>
-    </div>
-
-    <div class="card">
-      <h2>Info Tambahan</h2>
-      <p>Selain pilihan di atas, masih banyak lagi item lain yang dijual. Hanya barang berkualitas, mentok sampai 5 item saja per pembelian.
-        ⚔️ Purge HC Dimulai — Siapa yang Bertahan, Dialah Raja! ⚔️
-Trade item hanya dengan Netherite, Diamond, Emerald, Iron, dan Gold!
-No barang OP. Cuma lo, gear lo, dan skill lo.
-🔥 Main fair. Main keras.
-Kunjungi www.sukistore.me sekarang buat persiapan trade sebelum chaos dimulai!
-Lo siap? Atau cuma jadi korban berikutnya?</p>
-    </div>
-  </section>
-
-  <footer>
-    &copy; 2025 SukiStore Minecraft. Semua Hak Dilindungi.
-  </footer>
-
+  </div>
 </body>
-  </html>
-  
+</html>
