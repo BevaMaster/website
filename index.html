@@ -2,87 +2,55 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sukistore - Panel Pterodactyl</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sukistore - Checkout</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #1e1e1e;
-      padding: 1em;
-      text-align: center;
-      font-size: 1.5em;
-      font-weight: bold;
-    }
-    .container {
-      padding: 1em;
-    }
-    .product-list {
-      background: #222;
-      padding: 1em;
-      border-radius: 10px;
-      margin-bottom: 2em;
-    }
-    .product-item {
-      border-bottom: 1px solid #444;
-      padding: 0.5em 0;
-    }
-    .btn {
-      display: inline-block;
-      background: #28a745;
-      color: white;
-      padding: 0.75em 1.5em;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-      font-size: 1em;
-      cursor: pointer;
-    }
-    .btn.cancel {
-      background: #dc3545;
-    }
-    .checkout-box {
-      background: #1a1a1a;
-      padding: 1em;
-      border-radius: 10px;
-    }
-    footer {
-      text-align: center;
-      color: #777;
-      padding: 1em;
-      font-size: 0.9em;
-    }
+    body { font-family: sans-serif; background: #061c3f; color: white; margin: 0; padding: 0; }
+    .container { max-width: 480px; margin: auto; padding: 20px; }
+    .card { background: #12284a; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+    .product { border: 1px solid #1a3b6c; border-radius: 8px; padding: 10px; margin-top: 10px; }
+    .product input { margin-right: 10px; }
+    .button { background: #007bff; color: white; padding: 12px; text-align: center; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+    .button.cancel { background: #dc3545; }
+    label { display: block; margin-top: 5px; }
+    .note { font-size: 12px; margin-top: 20px; color: #ccc; }
   </style>
 </head>
 <body>
-  <header>
-    Sukistore - Panel Pterodactyl
-  </header>
   <div class="container">
-    <section class="product-list">
-      <h2>Daftar Panel</h2>
-      <p style="color:#aaa">Belum ada produk ditambahkan.</p>
-    </section>
+    <div class="card">
+      <h2>Checkout - Sukistore</h2>
+      <form id="checkoutForm">
+        <label>Email:</label>
+        <input type="email" name="email" required style="width: 100%; padding: 10px; border-radius: 5px;" />
 
-    <section class="checkout-box">
-      <h2>Checkout</h2>
-      <p>Total: <strong id="total">Rp 0</strong></p>
-      <p>Silakan lanjut ke WhatsApp untuk konfirmasi dan pembayaran.</p>
-      <a class="btn" href="https://wa.me/6282182572850" target="_blank">Lanjut ke WhatsApp</a>
-      <a class="btn cancel" href="#" onclick="alert('Checkout dibatalkan'); return false;">Batal</a>
-      <p style="margin-top:1em; color:#ccc; font-size:0.9em">
-        No Dana: 0821-8257-2850<br/>
-        Pastikan transfer sesuai harga yang disepakati di WhatsApp.
-      </p>
-    </section>
+        <label style="margin-top: 20px;">Pilih Produk:</label>
+        <div class="product"><input type="checkbox" name="produk" value="bot1" /> Panel Bot Unlimited (1 Bulan, Garansi 10 Hari)</div>
+        <div class="product"><input type="checkbox" name="produk" value="bot2" /> Panel Bot Unlimited (1 Bulan, Garansi 20 Hari)</div>
+
+        <div class="button" onclick="kirimWa()">Checkout via WhatsApp</div>
+        <div class="button cancel" onclick="batal()">Cancel</div>
+
+        <p class="note">Pembayaran via QRIS langsung ke WhatsApp: <b>082182572850</b></p>
+      </form>
+    </div>
   </div>
-  <footer>
-    &copy; 2025 Sukistore. All rights reserved.
-  </footer>
+
+  <script>
+    function kirimWa() {
+      var email = document.querySelector('input[name=email]').value;
+      var checked = document.querySelectorAll('input[name=produk]:checked');
+      var produkList = Array.from(checked).map(function(e) {
+        return e.parentElement.innerText;
+      }).join(", ");
+      if (!produkList) return alert("Pilih minimal 1 produk");
+      var msg = "Halo, saya ingin order:\\nProduk: " + produkList + "\\nEmail: " + email;
+      window.location.href = "https://wa.me/6282182572850?text=" + encodeURIComponent(msg);
+    }
+
+    function batal() {
+      document.getElementById("checkoutForm").reset();
+    }
+  </script>
 </body>
 </html>
