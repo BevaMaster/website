@@ -3,135 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SukiStore</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Sukistore - Panel Pterodactyl</title>
   <style>
-    body, html {
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
       margin: 0;
       padding: 0;
-      font-family: 'Poppins', sans-serif;
-      color: white;
-      overflow-x: hidden;
-      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80') no-repeat center center fixed;
-      background-size: cover;
     }
-
-    .overlay {
-      background: rgba(0, 0, 0, 0.6);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-      position: relative;
-    }
-
-    .card {
-      background: linear-gradient(to bottom, #0a1e3d, #122a4d);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    h2, h3 {
-      margin-top: 0;
-    }
-
-    .price {
-      font-size: 24px;
-      color: #f9b000;
+    header {
+      background: #1e1e1e;
+      padding: 1em;
+      text-align: center;
+      font-size: 1.5em;
       font-weight: bold;
     }
-
-    .info {
-      margin: 6px 0;
+    .container {
+      padding: 1em;
     }
-
-    .warning {
-      background: rgba(255,255,0,0.1);
-      padding: 10px;
-      border-radius: 6px;
-      color: #ffcc00;
-      margin-top: 10px;
+    .product-list {
+      background: #222;
+      padding: 1em;
+      border-radius: 10px;
+      margin-bottom: 2em;
     }
-
-    a {
-      color: #bbdefb;
-      text-decoration: underline;
+    .product-item {
+      border-bottom: 1px solid #444;
+      padding: 0.5em 0;
     }
-
-    .clickable {
-      display: block;
-      padding: 10px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 8px;
-      margin-bottom: 12px;
-      text-decoration: none;
+    .btn {
+      display: inline-block;
+      background: #28a745;
       color: white;
-      transition: background 0.3s;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1em;
+      cursor: pointer;
     }
-
-    .clickable:hover {
-      background: rgba(255,255,255,0.1);
+    .btn.cancel {
+      background: #dc3545;
+    }
+    .checkout-box {
+      background: #1a1a1a;
+      padding: 1em;
+      border-radius: 10px;
+    }
+    footer {
+      text-align: center;
+      color: #777;
+      padding: 1em;
+      font-size: 0.9em;
     }
   </style>
 </head>
 <body>
-  <div class="overlay"></div>
+  <header>
+    Sukistore - Panel Pterodactyl
+  </header>
   <div class="container">
-    <div class="card">
-      <h2>📋 LAPORKAN MASALAH</h2>
-      <ul>
-        <li>Data akun tidak muncul setelah membayar.</li>
-        <li>Claim garansi server down.</li>
-        <li>Data panel hilang atau lupa password.</li>
-      </ul>
-      <div class="warning">
-        ⚠️ Wajib Membawa Bukti Transfer, Screenshot Data Akun (jika ada), dan Alamat Gmail yang tercantum.
-      </div>
-      <p><a href="https://wa.me/6282182572850" target="_blank">Hubungi Admin</a></p>
-    </div>
+    <section class="product-list">
+      <h2>Daftar Panel</h2>
+      <p style="color:#aaa">Belum ada produk ditambahkan.</p>
+    </section>
 
-    <div class="card">
-      <h2>🚀 TOKO PANEL PTERODACTYL</h2>
-      <h3>SukiStore</h3>
-      <p><strong>SELAMAT DATANG</strong><br>Beli panel dengan cepat dan aman melalui website</p>
-    </div>
-
-    <div class="card">
-      <h3>✨ Pilih Paket Panel Anda ✨</h3>
-
-      <a class="clickable" href="https://wa.me/6282182572850?text=Saya%20ingin%20beli%20Panel%201GB">
-        <h3>PANEL BOT 1GB</h3>
-        <div class="price">Rp 2.000</div>
-        <div class="info">🕒 Masa Aktif 1 Bulan</div>
-        <div class="info">🛠️ Garansi 10 Hari</div>
-        <div class="info">💾 RAM: 1000 MB</div>
-        <div class="info">📦 Disk: 1000 MB</div>
-        <div class="info">⚙️ CPU: 40%</div>
-      </a>
-
-      <a class="clickable" href="https://wa.me/6282182572850?text=Saya%20ingin%20beli%20Panel%202GB">
-        <h3>PANEL BOT 2GB</h3>
-        <div class="price">Rp 4.000</div>
-        <div class="info">🕒 Masa Aktif 1 Bulan</div>
-        <div class="info">🛠️ Garansi 10 Hari</div>
-        <div class="info">💾 RAM: 2000 MB</div>
-        <div class="info">📦 Disk: 2000 MB</div>
-        <div class="info">⚙️ CPU: 80%</div>
-      </a>
-
-      <!-- Tambahkan card lainnya di sini juga pakai class clickable dan href ke WA -->
-
-    </div>
+    <section class="checkout-box">
+      <h2>Checkout</h2>
+      <p>Total: <strong id="total">Rp 0</strong></p>
+      <p>Silakan lanjut ke WhatsApp untuk konfirmasi dan pembayaran.</p>
+      <a class="btn" href="https://wa.me/6282182572850" target="_blank">Lanjut ke WhatsApp</a>
+      <a class="btn cancel" href="#" onclick="alert('Checkout dibatalkan'); return false;">Batal</a>
+      <p style="margin-top:1em; color:#ccc; font-size:0.9em">
+        No Dana: 0821-8257-2850<br/>
+        Pastikan transfer sesuai harga yang disepakati di WhatsApp.
+      </p>
+    </section>
   </div>
+  <footer>
+    &copy; 2025 Sukistore. All rights reserved.
+  </footer>
 </body>
 </html>
