@@ -12,38 +12,33 @@
       font-family: 'Poppins', sans-serif;
       color: white;
       overflow-x: hidden;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80') no-repeat center center fixed;
+      background-size: cover;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      position: absolute;
       top: 0;
       left: 0;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(-45deg, #0d1a36, #192d55, #0d1a36, #142944);
-      background-size: 400% 400%;
-      animation: moveBG 20s ease infinite;
+      width: 100%;
+      height: 100%;
       z-index: -1;
-    }
-
-    @keyframes moveBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
 
     .container {
       max-width: 600px;
       margin: auto;
       padding: 20px;
+      position: relative;
     }
 
     .card {
-      background: rgba(0,0,0,0.5);
+      background: linear-gradient(to bottom, #0a1e3d, #122a4d);
       border-radius: 12px;
       padding: 20px;
       margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     h2, h3 {
@@ -76,7 +71,7 @@
     .clickable {
       display: block;
       padding: 10px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
       border-radius: 8px;
       margin-bottom: 12px;
       text-decoration: none;
@@ -85,11 +80,12 @@
     }
 
     .clickable:hover {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
     }
   </style>
 </head>
 <body>
+  <div class="overlay"></div>
   <div class="container">
     <div class="card">
       <h2>📋 LAPORKAN MASALAH</h2>
