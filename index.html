@@ -3,57 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SukiTik | Downloader TikTok HD - sukistore.me</title>
+  <title>SukiTik | Downloader TikTok - sukistore.me</title>
 
-  <!-- Anti-copy Protection -->
+  <!-- Proteksi tapi bisa select/copy -->
   <script>
     document.addEventListener('contextmenu', function(e) {
-      alert('😹 Anda tidak bisa mengambil source ini.');
+      alert('😺 Anda tidak bisa mengambil source ini.');
       e.preventDefault();
     });
-    document.onkeydown = function(e) {
-      if (
-        e.keyCode == 123 || 
-        (e.ctrlKey && e.shiftKey && e.keyCode == 73) || 
-        (e.ctrlKey && e.keyCode == 85) || 
-        (e.ctrlKey && e.keyCode == 83)
-      ) {
-        alert('😹 Anda tidak bisa mengintip kode ini.');
-        return false;
+    window.addEventListener("keydown", function(e) {
+      const blocked = [123, 73, 85, 83];
+      if ((e.ctrlKey || e.metaKey) && blocked.includes(e.keyCode)) {
+        alert("😺 Anda tidak bisa mengambil source ini.");
+        e.preventDefault();
       }
-    };
+    });
   </script>
 
-  <!-- Obfuscated Inline CSS -->
+  <!-- Style -->
   <style>
-    body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(to bottom,#000,#a10000);color:white;overflow:hidden;}
-    .container{z-index:1;text-align:center;margin-top:10vh;position:relative;}
-    .logo{width:24px;height:24px;vertical-align:middle;margin-left:8px;}
-    input{width:80%;padding:10px;font-size:16px;margin:20px 0;}
-    button{padding:12px 30px;background:#d80000;color:white;border:none;font-size:16px;cursor:pointer;}
-    .wave-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:url('https://media.giphy.com/media/xUPGcAep2FwGQ9Y3WM/giphy.gif') no-repeat center center;background-size:cover;z-index:0;opacity:0.2;}
-    @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);}}
-    .credit {font-size: 14px; margin-top: 6px; color: #ccc;}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('planet.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      overflow: hidden;
+      transition: transform 0.1s;
+    }
+    .container {
+      z-index: 1;
+      text-align: center;
+      margin-top: 10vh;
+      position: relative;
+    }
+    .logo {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      margin: 20px 0;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      padding: 12px 30px;
+      background: #d80000;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .credit {
+      font-size: 14px;
+      margin-top: 6px;
+      color: #ccc;
+    }
   </style>
 </head>
 <body>
-  <div class="wave-bg"></div>
   <div class="container">
     <h1>
       SukiTik
-      <img src="astronot-logo.png" alt="Logo Astronot" class="logo" />
+      <img src="astronot-logo.png" alt="SukiTik Logo" class="logo" />
     </h1>
-    <div class="credit"><strong>By Beva Anjas Ganteng Gurinjayyyyyy 😎🔥</strong></div>
-
+    <div class="credit">
+      <strong>By Beva Anjas Ganteng Gurinjayyyyyy 😎🔥</strong>
+    </div>
     <p>Download video TikTok tanpa watermark dari <strong>sukistore.me</strong></p>
     <input type="text" id="tiktokURL" placeholder="Tempel link video TikTok di sini..." />
     <button onclick="downloadVideo()">Download</button>
     <div id="result"></div>
   </div>
 
-  <!-- Obfuscated Inline JS -->
+  <!-- Script -->
   <script>
-    function downloadVideo(){const e=document.getElementById("tiktokURL").value;if(!e)return void alert("Tempel link TikTok dulu!");fetch(`https://sukitik-api.vercel.app/api?url=${encodeURIComponent(e)}`).then(e=>e.json()).then(e=>{e.video?document.getElementById("result").innerHTML=`<a href="${e.video}" target="_blank"><button>Download Now</button></a>`:document.getElementById("result").innerText="Video tidak ditemukan!"}).catch(()=>{document.getElementById("result").innerText="Gagal mengambil video"});}
+    function downloadVideo() {
+      const url = document.getElementById("tiktokURL").value;
+      if (!url) {
+        alert("Tempel link TikTok dulu!");
+        return;
+      }
+
+      fetch(`https://tikwm.com/api/?url=${encodeURIComponent(url)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.data && data.data.play) {
+            document.getElementById("result").innerHTML = `
+              <a href="${data.data.play}" target="_blank">
+                <button>Download Now</button>
+              </a>`;
+          } else {
+            document.getElementById("result").innerText = "Video tidak ditemukan!";
+          }
+        })
+        .catch(() => {
+          document.getElementById("result").innerText = "Gagal mengambil video";
+        });
+    }
+  </script>
+
+  <!-- Efek Gyroskop -->
+  <script>
+    document.addEventListener("mousemove", function (e) {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      document.body.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
+    });
   </script>
 </body>
 </html>
