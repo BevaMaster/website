@@ -7,17 +7,24 @@
 
   <!-- Proteksi tapi bisa select/copy -->
   <script>
-    document.addEventListener('contextmenu', function(e) {
-      alert('😺 Anda tidak bisa mengambil source ini.');
+  document.addEventListener('contextmenu', function(e) {
+    alert('😺 Anda tidak bisa mengambil source ini.');
+    e.preventDefault();
+  });
+
+  window.addEventListener("keydown", function(e) {
+    // Blok hanya shortcut developer tools, bukan Select All
+    const isBlocked =
+      e.keyCode === 123 || // F12
+      (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+      (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
+      (e.ctrlKey && e.keyCode === 83); // Ctrl+S
+
+    if (isBlocked) {
+      alert("😺 Anda tidak bisa mengambil source ini.");
       e.preventDefault();
-    });
-    window.addEventListener("keydown", function(e) {
-      const blocked = [123, 73, 85, 83];
-      if ((e.ctrlKey || e.metaKey) && blocked.includes(e.keyCode)) {
-        alert("😺 Anda tidak bisa mengambil source ini.");
-        e.preventDefault();
-      }
-    });
+    }
+  });
   </script>
 
   <!-- Style -->
