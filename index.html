@@ -6,21 +6,11 @@
   <title>SukiTik | download tiktok & ig tanpa watermark - sukistore.me</title>
 
   <style>
-    /* video background style */
-    #bgVideo {
-      position: fixed;
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      filter: brightness(0.6);
-    }
-
     body {
       margin: 0;
       font-family: arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+      background-size: cover;
       color: #111;
       overflow: hidden;
     }
@@ -113,19 +103,12 @@
 </head>
 <body>
 
-  <!-- Background Video -->
-  <video autoplay muted loop id="bgVideo">
-    <source src="https://cdn.pixabay.com/vimeo/282314952/rain-18371.mp4?width=640&hash=f7348a04eae46ec5f4f85cb3913cc9b85fbd51df" type="video/mp4">
-  </video>
-
-  <!-- Tombol Menu -->
   <button class="menu-button" onclick="toggleMenu()">=</button>
   <div id="platformMenu" class="platform-menu">
     <button onclick="switchPlatform('tiktok')">TikTok</button>
     <button onclick="switchPlatform('instagram')">Instagram</button>
   </div>
 
-  <!-- Konten Utama -->
   <div class="container">
     <h1>SukiTik <img src="astronot-logo.png" alt="logo" class="logo" /></h1>
     <div class="credit">By Beva Anjas Ganteng Gurinjayyyyyy 😎🔥</div>
