@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sukitik | download tiktok & ig tanpa watermark - sukistore.me</title>
+  <title>SukiTik | download tiktok & ig tanpa watermark - sukistore.me</title>
 
-  <!-- blok klik kanan & shortcut devtools -->
+  <!-- proteksi: blok klik kanan + shortcut devtools -->
   <script>
     document.addEventListener('contextmenu', e => {
       alert('😺 kode disembunyiin, gak bisa disalin ya!');
@@ -23,18 +23,18 @@
       }
     });
 
-    // deteksi kalo devtools dibuka
+    // deteksi devtools via beda ukuran
     (function () {
       let isOpen = false;
       const batas = 160;
       setInterval(() => {
-        const cekLebar = window.outerWidth - window.innerWidth > batas;
-        const cekTinggi = window.outerHeight - window.innerHeight > batas;
-        if ((cekLebar || cekTinggi) && !isOpen) {
+        const width = window.outerWidth - window.innerWidth > batas;
+        const height = window.outerHeight - window.innerHeight > batas;
+        if ((width || height) && !isOpen) {
           alert('😹 mau ngapain buka devtools?');
           isOpen = true;
         }
-        if (!cekLebar && !cekTinggi) isOpen = false;
+        if (!width && !height) isOpen = false;
       }, 500);
     })();
   </script>
@@ -121,17 +121,17 @@
   </style>
 </head>
 <body>
-  <!-- tombol menu kanan atas -->
-  <button class="menu-button" onclick="toggleMenu()">—</button>
+  <!-- tombol menu = -->
+  <button class="menu-button" onclick="toggleMenu()">=</button>
   <div id="platformMenu" class="platform-menu">
-    <button onclick="switchPlatform('tiktok')">tiktok</button>
-    <button onclick="switchPlatform('instagram')">instagram</button>
+    <button onclick="switchPlatform('tiktok')">TikTok</button>
+    <button onclick="switchPlatform('instagram')">Instagram</button>
   </div>
 
   <!-- konten utama -->
   <div class="container">
-    <h1>sukitik <img src="astronot-logo.png" alt="logo" class="logo" /></h1>
-    <div class="credit">by beva anjas ganteng gurinjayyyyyy 😎🔥</div>
+    <h1>SukiTik <img src="astronot-logo.png" alt="logo" class="logo" /></h1>
+    <div class="credit">By Beva Anjas Ganteng Gurinjayyyyyy 😎🔥</div>
     <p id="desc">download video tiktok tanpa watermark dari <strong>sukistore.me</strong></p>
 
     <!-- form tiktok -->
@@ -141,7 +141,7 @@
       <div id="tiktokResult" style="margin-top:20px;"></div>
     </div>
 
-    <!-- form instagram (maintenance) -->
+    <!-- form instagram -->
     <div id="instagramForm" class="hidden">
       <input id="igURL" placeholder="fitur instagram lagi perawatan" disabled />
       <button onclick="downloadInstagram()">download</button>
@@ -203,7 +203,7 @@
       document.getElementById("igResult").innerText = "fitur instagram lagi maintance 😿. tunggu update selanjutnya ya!";
     }
 
-    // efek gerak background
+    // animasi background ikut gerak mouse
     document.addEventListener("mousemove", e => {
       const x = (e.clientX / window.innerWidth - 0.5) * 20;
       const y = (e.clientY / window.innerHeight - 0.5) * 20;
