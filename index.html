@@ -11,7 +11,7 @@
       font-family: arial, sans-serif;
       background: url('https://files.catbox.moe/y4kzjx.png') no-repeat center center fixed;
       background-size: cover;
-      color: #111;
+      color: white;
       overflow: hidden;
     }
 
@@ -35,15 +35,15 @@
       border: none;
       border-radius: 10px;
       backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.5);
-      color: #111;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
       margin: 10px 0;
       transition: all 0.2s ease;
       box-shadow: 0 0 8px rgba(0,0,0,0.2);
     }
 
     input::placeholder {
-      color: #555;
+      color: #eee;
     }
 
     input {
@@ -51,13 +51,13 @@
     }
 
     button:hover {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .credit {
       font-size: 14px;
       margin-top: 6px;
-      color: #333;
+      color: white;
     }
 
     .menu-button {
@@ -68,8 +68,8 @@
       padding: 5px 12px;
       border-radius: 10px;
       z-index: 10;
-      background: rgba(255,255,255,0.5);
-      color: #111;
+      background: rgba(255,255,255,0.1);
+      color: white;
       backdrop-filter: blur(10px);
     }
 
@@ -78,7 +78,7 @@
       position: fixed;
       top: 50px;
       right: 10px;
-      background: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.1);
       padding: 10px;
       border-radius: 10px;
       z-index: 10;
@@ -89,8 +89,8 @@
       display: block;
       width: 100%;
       margin: 5px 0;
-      background: rgba(255, 255, 255, 0.8);
-      color: #111;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
       padding: 8px;
       border-radius: 6px;
       cursor: pointer;
@@ -110,7 +110,7 @@
   </div>
 
   <div class="container">
-    <h1 style="color:white">SukiTik <img src="astronot-logo.png" alt="logo" class="logo" /></h1>
+    <h1>SukiTik <img src="astronot-logo.png" alt="logo" class="logo" /></h1>
     <div class="credit">By Beva Anjas Ganteng Gurinjayyyyyy 😎🔥</div>
     <p id="desc">download video tiktok tanpa watermark dari <strong>sukistore.me</strong></p>
 
@@ -179,7 +179,7 @@
             document.body.removeChild(link);
 
             document.getElementById("tiktokResult").innerHTML =
-              `<div style="color:lime">video siap didownload 😎</div>`;
+              `<div style="color:white">video siap didownload 😎</div>`;
           } else {
             document.getElementById("tiktokResult").innerText = "video gak ketemu 😢";
           }
