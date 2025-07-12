@@ -3,31 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SukiTik | Downloader TikTok - sukistore.me</title>
-
-  <!-- Proteksi tapi bisa select/copy -->
+  <title>sukitik | download tiktok & ig tanpa watermark - sukistore.me</title>
   <script>
-  document.addEventListener('contextmenu', function(e) {
-    alert('😺 Anda tidak bisa mengambil source ini.');
-    e.preventDefault();
-  });
-
-  window.addEventListener("keydown", function(e) {
-    // Blok hanya shortcut developer tools, bukan Select All
-    const isBlocked =
-      e.keyCode === 123 || // F12
-      (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
-      (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
-      (e.ctrlKey && e.keyCode === 83); // Ctrl+S
-
-    if (isBlocked) {
-      alert("😺 Anda tidak bisa mengambil source ini.");
+    document.addEventListener('contextmenu', e => {
+      alert('😺 kode disembunyiin, gak bisa disalin ya!');
       e.preventDefault();
-    }
-  });
+    });
+    window.addEventListener("keydown", e => {
+      if (
+        e.keyCode === 123 ||
+        (e.ctrlKey && e.shiftKey && e.keyCode === 73) ||
+        (e.ctrlKey && e.keyCode === 85) ||
+        (e.ctrlKey && e.keyCode === 83)
+      ) {
+        alert("😹 kode disembunyiin yaaa hehe");
+        e.preventDefault();
+      }
+    });
   </script>
-
-  <!-- Style -->
   <style>
     body {
       margin: 0;
@@ -39,10 +32,10 @@
       transition: transform 0.1s;
     }
     .container {
-      z-index: 1;
       text-align: center;
       margin-top: 10vh;
       position: relative;
+      z-index: 1;
     }
     .logo {
       width: 24px;
@@ -50,21 +43,19 @@
       vertical-align: middle;
       margin-left: 8px;
     }
+    input, button {
+      font-size: 16px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
     input {
       width: 80%;
-      padding: 10px;
-      font-size: 16px;
-      margin: 20px 0;
-      border-radius: 5px;
-      border: none;
+      margin: 10px 0;
     }
     button {
-      padding: 12px 30px;
       background: #d80000;
       color: white;
-      border: none;
-      font-size: 16px;
-      border-radius: 4px;
       cursor: pointer;
     }
     .credit {
@@ -72,56 +63,143 @@
       margin-top: 6px;
       color: #ccc;
     }
+    .menu-button {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #d80000;
+      color: white;
+      font-size: 20px;
+      padding: 5px 12px;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      z-index: 10;
+    }
+    .platform-menu {
+      display: none;
+      position: fixed;
+      top: 50px;
+      right: 10px;
+      background: rgba(0,0,0,0.8);
+      padding: 10px;
+      border-radius: 6px;
+      z-index: 10;
+    }
+    .platform-menu button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>
-      SukiTik
-      <img src="astronot-logo.png" alt="SukiTik Logo" class="logo" />
-    </h1>
-    <div class="credit">
-      <strong>By Beva Anjas Ganteng Gurinjayyyyyy 😎🔥</strong>
-    </div>
-    <p>Download video TikTok tanpa watermark dari <strong>sukistore.me</strong></p>
-    <input type="text" id="tiktokURL" placeholder="Tempel link video TikTok di sini..." />
-    <button onclick="downloadVideo()">Download</button>
-    <div id="result"></div>
+  <button class="menu-button" onclick="toggleMenu()">=</button>
+  <div id="platformMenu" class="platform-menu">
+    <button onclick="switchPlatform('tiktok')">TikTok</button>
+    <button onclick="switchPlatform('instagram')">Instagram</button>
   </div>
 
-  <!-- Script -->
-  <script>
-    function downloadVideo() {
-      const url = document.getElementById("tiktokURL").value;
-      if (!url) {
-        alert("Tempel link TikTok dulu!");
-        return;
-      }
+  <div class="container">
+    <h1>SukiTik <img src="astronot-logo.png" alt="logo" class="logo" /></h1>
+    <div class="credit">By Beva Anjas Ganteng Gurinjayyyyyy 😎🔥</div>
+    <p id="desc">download video tiktok tanpa watermark dari <strong>sukistore.me</strong></p>
 
-      fetch(`https://tikwm.com/api/?url=${encodeURIComponent(url)}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data && data.data && data.data.play) {
-            document.getElementById("result").innerHTML = `
-              <a href="${data.data.play}" target="_blank">
-                <button>Download Now</button>
-              </a>`;
+    <div id="tiktokForm">
+      <input id="tiktokURL" placeholder="tempel link tiktok disini ya..." />
+      <button onclick="downloadTiktok()">Download</button>
+      <div id="tiktokResult" style="margin-top:20px;"></div>
+    </div>
+
+    <div id="instagramForm" class="hidden">
+      <input id="igURL" placeholder="tempel link instagram disini ya..." />
+      <button onclick="downloadInstagram()">Download</button>
+      <div id="igResult" style="margin-top:20px;"></div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const m = document.getElementById("platformMenu");
+      m.style.display = m.style.display === "block" ? "none" : "block";
+    }
+
+    function switchPlatform(p) {
+      document.getElementById("tiktokForm").classList.add("hidden");
+      document.getElementById("instagramForm").classList.add("hidden");
+      if (p === "tiktok") {
+        document.getElementById("desc").innerHTML = 'download video tiktok tanpa watermark dari <strong>sukistore.me</strong>';
+        document.getElementById("tiktokForm").classList.remove("hidden");
+      } else {
+        document.getElementById("desc").innerHTML = 'download video instagram yang <strong>jadi post, reels, atau story</strong> dari <strong>sukistore.me</strong>';
+        document.getElementById("instagramForm").classList.remove("hidden");
+      }
+      toggleMenu();
+    }
+  </script>
+
+  <script>
+    async function resolveFinalURL(u) {
+      if (u.includes("vt.tiktok.com")) {
+        try {
+          const r = await fetch(u, { method: 'HEAD', redirect: 'follow' });
+          return r.url || u;
+        } catch { return u; }
+      }
+      return u;
+    }
+
+    async function downloadTiktok() {
+      const input = document.getElementById("tiktokURL").value.trim();
+      if (!input) return alert("tempel link tiktok dulu!");
+      const finalURL = await resolveFinalURL(input);
+      fetch(`https://tikwm.com/api/?url=${encodeURIComponent(finalURL)}`)
+        .then(r => r.json())
+        .then(d => {
+          if (d?.data?.play) {
+            document.getElementById("tiktokResult").innerHTML =
+              `<a href="${d.data.play}" target="_blank"><button>Download Now</button></a>`;
           } else {
-            document.getElementById("result").innerText = "Video tidak ditemukan!";
+            document.getElementById("tiktokResult").innerText = "video tidak ditemukan!";
           }
         })
         .catch(() => {
-          document.getElementById("result").innerText = "Gagal mengambil video";
+          document.getElementById("tiktokResult").innerText = "gagal mengambil video";
+        });
+    }
+
+    async function downloadInstagram() {
+      const input = document.getElementById("igURL").value.trim();
+      if (!input) return alert("tempel link instagram dulu!");
+      fetch(`https://instagram-reel-api.onrender.com?url=${encodeURIComponent(input)}`)
+        .then(r => r.json())
+        .then(d => {
+          if (d?.download_link) {
+            document.getElementById("igResult").innerHTML =
+              `<a href="${d.download_link}" target="_blank"><button>Download Now</button></a>`;
+          } else {
+            document.getElementById("igResult").innerText = "video tidak ditemukan!";
+          }
+        })
+        .catch(() => {
+          document.getElementById("igResult").innerText = "gagal mengambil video";
         });
     }
   </script>
 
-  <!-- Efek Gyroskop -->
   <script>
-    document.addEventListener("mousemove", function (e) {
+    document.addEventListener("mousemove", e => {
       const x = (e.clientX / window.innerWidth - 0.5) * 20;
       const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      document.body.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
+      document.body.style.transform =
+        `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
     });
   </script>
 </body>
