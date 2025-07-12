@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SukiTik | download tiktok & ig tanpa watermark - sukistore.me</title>
 
+  <!-- efek salju -->
+  <script src="https://cdn.jsdelivr.net/gh/lokesh-coder/pretty-snowflakes/snowflakes.min.js"></script>
+
   <!-- proteksi: blok klik kanan + shortcut devtools -->
   <script>
     document.addEventListener('contextmenu', e => {
@@ -13,17 +16,15 @@
     });
     window.addEventListener('keydown', e => {
       if (
-        e.keyCode === 123 || // f12
-        (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // ctrl+shift+i
-        (e.ctrlKey && e.keyCode === 85) || // ctrl+u
-        (e.ctrlKey && e.keyCode === 83)   // ctrl+s
+        e.keyCode === 123 ||
+        (e.ctrlKey && e.shiftKey && e.keyCode === 73) ||
+        (e.ctrlKey && e.keyCode === 85) ||
+        (e.ctrlKey && e.keyCode === 83)
       ) {
         alert('😹 mau ngapain buka source 😹?');
         e.preventDefault();
       }
     });
-
-    // deteksi devtools via beda ukuran
     (function () {
       let isOpen = false;
       const batas = 160;
@@ -43,105 +44,113 @@
     body {
       margin: 0;
       font-family: arial, sans-serif;
-      background: url('planet.png') no-repeat center center fixed;
+      background: url('https://images.unsplash.com/photo-1549887534-5787c51f498d?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
       background-size: cover;
       color: white;
       overflow: hidden;
-      transition: transform 0.1s;
     }
+
     .container {
       text-align: center;
       margin-top: 10vh;
       position: relative;
       z-index: 1;
     }
+
     .logo {
       width: 24px;
       height: 24px;
       vertical-align: middle;
       margin-left: 8px;
     }
+
     input, button {
       font-size: 16px;
       padding: 10px;
       border: none;
-      border-radius: 5px;
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      margin: 10px 0;
+      transition: all 0.2s ease;
     }
+
+    input::placeholder {
+      color: #ddd;
+    }
+
     input {
       width: 80%;
-      margin: 10px 0;
     }
-    button {
-      background: #d80000;
-      color: white;
-      cursor: pointer;
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
+
     .credit {
       font-size: 14px;
       margin-top: 6px;
       color: #ccc;
     }
+
     .menu-button {
       position: fixed;
       top: 10px;
       right: 10px;
-      background: #d80000;
-      color: white;
       font-size: 20px;
       padding: 5px 12px;
-      border: none;
-      cursor: pointer;
-      border-radius: 6px;
+      border-radius: 10px;
       z-index: 10;
     }
+
     .platform-menu {
       display: none;
       position: fixed;
       top: 50px;
       right: 10px;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.5);
       padding: 10px;
-      border-radius: 6px;
+      border-radius: 10px;
       z-index: 10;
     }
+
     .platform-menu button {
       display: block;
       width: 100%;
       margin: 5px 0;
-      background: #fff;
-      color: #000;
-      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
       padding: 8px;
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
     }
+
     .hidden {
       display: none;
     }
   </style>
 </head>
 <body>
-  <!-- tombol menu = -->
   <button class="menu-button" onclick="toggleMenu()">=</button>
   <div id="platformMenu" class="platform-menu">
     <button onclick="switchPlatform('tiktok')">TikTok</button>
     <button onclick="switchPlatform('instagram')">Instagram</button>
   </div>
 
-  <!-- konten utama -->
   <div class="container">
     <h1>SukiTik <img src="astronot-logo.png" alt="logo" class="logo" /></h1>
     <div class="credit">By Beva Anjas Ganteng Gurinjayyyyyy 😎🔥</div>
     <p id="desc">download video tiktok tanpa watermark dari <strong>sukistore.me</strong></p>
 
-    <!-- form tiktok -->
+    <!-- TikTok Form -->
     <div id="tiktokForm">
       <input id="tiktokURL" placeholder="tempel link tiktok disini ya..." />
       <button onclick="downloadTiktok()">download</button>
       <div id="tiktokResult" style="margin-top:20px;"></div>
     </div>
 
-    <!-- form instagram -->
+    <!-- Instagram Form -->
     <div id="instagramForm" class="hidden">
       <input id="igURL" placeholder="fitur instagram lagi perawatan" disabled />
       <button onclick="downloadInstagram()">download</button>
@@ -184,12 +193,22 @@
       const input = document.getElementById("tiktokURL").value.trim();
       if (!input) return alert("tempel link tiktok dulu ya!");
       const finalURL = await resolveFinalURL(input);
+
       fetch(`https://tikwm.com/api/?url=${encodeURIComponent(finalURL)}`)
         .then(r => r.json())
         .then(d => {
           if (d?.data?.play) {
+            const videoUrl = d.data.play;
+
+            const link = document.createElement("a");
+            link.href = videoUrl;
+            link.download = "tiktok.mp4";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
             document.getElementById("tiktokResult").innerHTML =
-              `<a href="${d.data.play}" target="_blank"><button>download now</button></a>`;
+              `<div style="color:lime">video siap didownload 😎</div>`;
           } else {
             document.getElementById("tiktokResult").innerText = "video gak ketemu 😢";
           }
@@ -202,14 +221,6 @@
     function downloadInstagram() {
       document.getElementById("igResult").innerText = "fitur instagram lagi maintance 😿. tunggu update selanjutnya ya!";
     }
-
-    // animasi background ikut gerak mouse
-    document.addEventListener("mousemove", e => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      document.body.style.transform =
-        `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
-    });
   </script>
 </body>
 </html>
