@@ -6,7 +6,7 @@
   <title>sukitik | download tiktok & ig tanpa watermark - sukistore.me</title>
   <script>
     document.addEventListener('contextmenu', e => {
-      alert('😺 kode disembunyiin, gak bisa disalin ya!');
+      alert('😺 cium dong 🗿');
       e.preventDefault();
     });
     window.addEventListener("keydown", e => {
@@ -16,7 +16,7 @@
         (e.ctrlKey && e.keyCode === 85) ||
         (e.ctrlKey && e.keyCode === 83)
       ) {
-        alert("😹 kode disembunyiin yaaa hehe");
+        alert("😹 ketawa dulu ngab");
         e.preventDefault();
       }
     });
@@ -128,9 +128,9 @@
     </div>
 
     <div id="instagramForm" class="hidden">
-      <input id="igURL" placeholder="tempel link instagram disini ya..." />
-      <button onclick="downloadInstagram()">Download</button>
-      <div id="igResult" style="margin-top:20px;"></div>
+      <input id="igURL" disabled value="Instagram sedang maintenance..." />
+      <button disabled>Maintenance</button>
+      <div id="igResult" style="margin-top:20px;color:#ccc;font-style:italic;">Harap bersabar ya!</div>
     </div>
   </div>
 
@@ -147,7 +147,7 @@
         document.getElementById("desc").innerHTML = 'download video tiktok tanpa watermark dari <strong>sukistore.me</strong>';
         document.getElementById("tiktokForm").classList.remove("hidden");
       } else {
-        document.getElementById("desc").innerHTML = 'download video instagram yang <strong>jadi post, reels, story</strong> dari <strong>sukistore.me</strong>';
+        document.getElementById("desc").innerHTML = 'instagram sedang <strong>maintenance</strong>, harap bersabar ya 😿';
         document.getElementById("instagramForm").classList.remove("hidden");
       }
       toggleMenu();
@@ -180,25 +180,6 @@
         })
         .catch(() => {
           document.getElementById("tiktokResult").innerText = "gagal mengambil video";
-        });
-    }
-
-    async function downloadInstagram() {
-      const input = document.getElementById("igURL").value.trim();
-      if (!input) return alert("tempel link instagram dulu!");
-      fetch(`https://instaslideapi.vercel.app/api/download?url=${encodeURIComponent(input)}`)
-        .then(r => r.json())
-        .then(d => {
-          if (d?.media?.length > 0) {
-            document.getElementById("igResult").innerHTML = d.media.map((m, i) =>
-              `<a href="${m.url}" target="_blank"><button>Download Slide ${i + 1}</button></a>`
-            ).join('');
-          } else {
-            document.getElementById("igResult").innerText = "video tidak ditemukan!";
-          }
-        })
-        .catch(() => {
-          document.getElementById("igResult").innerText = "gagal mengambil video";
         });
     }
 
