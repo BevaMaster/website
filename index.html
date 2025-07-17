@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SukiTik | download tiktok & ig tanpa watermark - sukistore.me</title>
-
   <style>
     body {
       margin: 0;
@@ -12,7 +11,7 @@
       background: url('https://files.catbox.moe/y4kzjx.png') no-repeat center center fixed;
       background-size: cover;
       color: white;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     .container {
@@ -20,6 +19,12 @@
       margin-top: 10vh;
       position: relative;
       z-index: 1;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .logo {
@@ -99,10 +104,30 @@
     .hidden {
       display: none;
     }
+
+    .preview-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 12px;
+      margin-top: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    }
+
+    .preview-img {
+      max-width: 100px;
+      border-radius: 8px;
+      margin: 5px;
+    }
+
+    .preview-title {
+      font-size: 14px;
+      margin: 5px 0;
+      color: white;
+    }
   </style>
 </head>
 <body>
-
   <button class="menu-button" onclick="toggleMenu()">=</button>
   <div id="platformMenu" class="platform-menu">
     <button onclick="switchPlatform('tiktok')">TikTok</button>
@@ -168,18 +193,16 @@
       fetch(`https://tikwm.com/api/?url=${encodeURIComponent(finalURL)}`)
         .then(r => r.json())
         .then(d => {
-          if (d?.data?.play) {
+          if (d?.data?.images?.length > 0) {
+            // Handle TikTok Slide Photo
+            const resultBox = document.getElementById("tiktokResult");
+            resultBox.innerHTML = `<div class='preview-box'>${d.data.images.map(img => `<img src='${img}' class='preview-img' />`).join('')}<br><button onclick="alert('klik kanan > simpan gambar untuk download 🙃')">download manual</button></div>`;
+
+          } else if (d?.data?.play) {
+            // Handle TikTok Video
             const videoUrl = d.data.play;
-
-            const link = document.createElement("a");
-            link.href = videoUrl;
-            link.download = "tiktok.mp4";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            document.getElementById("tiktokResult").innerHTML =
-              `<div style="color:white">video siap didownload 😎</div>`;
+            const resultBox = document.getElementById("tiktokResult");
+            resultBox.innerHTML = `<div class='preview-box'><div class='preview-title'>video siap didownload 😎</div><a href='${videoUrl}' download><button>download video</button></a></div>`;
           } else {
             document.getElementById("tiktokResult").innerText = "video gak ketemu 😢";
           }
