@@ -22,14 +22,24 @@
     });
   </script>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: url('planet.png') no-repeat center center fixed;
+      background: url('https://files.catbox.moe/y4kzjx.png') no-repeat center center fixed;
       background-size: cover;
       color: white;
-      overflow: hidden;
+      overflow-x: hidden;
       transition: transform 0.1s;
+    }
+    .fadein {
+      animation: fadeIn 1.3s ease-in-out both;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.98); }
+      100% { opacity: 1; transform: scale(1); }
     }
     .container {
       text-align: center;
@@ -47,16 +57,18 @@
       font-size: 16px;
       padding: 10px;
       border: none;
-      border-radius: 5px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     input {
       width: 80%;
       margin: 10px 0;
     }
-    button {
-      background: #d80000;
-      color: white;
-      cursor: pointer;
+    button:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
     .credit {
       font-size: 14px;
@@ -67,13 +79,13 @@
       position: fixed;
       top: 10px;
       right: 10px;
-      background: #d80000;
+      background: rgba(255, 255, 255, 0.2);
       color: white;
       font-size: 20px;
       padding: 5px 12px;
       border: none;
-      cursor: pointer;
-      border-radius: 6px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
       z-index: 10;
     }
     .platform-menu {
@@ -81,26 +93,23 @@
       position: fixed;
       top: 50px;
       right: 10px;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.7);
       padding: 10px;
-      border-radius: 6px;
+      border-radius: 10px;
       z-index: 10;
+      backdrop-filter: blur(4px);
     }
     .platform-menu button {
       display: block;
       width: 100%;
       margin: 5px 0;
-      background: #fff;
-      color: #000;
-      border: none;
-      padding: 8px;
-      border-radius: 4px;
-      cursor: pointer;
+      color: white;
+      background: rgba(255,255,255,0.1);
     }
     .hidden { display: none; }
   </style>
 </head>
-<body>
+<body class="fadein">
   <button class="menu-button" onclick="toggleMenu()">=</button>
   <div id="platformMenu" class="platform-menu">
     <button onclick="switchPlatform('tiktok')">TikTok</button>
@@ -138,14 +147,12 @@
         document.getElementById("desc").innerHTML = 'download video tiktok tanpa watermark dari <strong>sukistore.me</strong>';
         document.getElementById("tiktokForm").classList.remove("hidden");
       } else {
-        document.getElementById("desc").innerHTML = 'download video instagram yang <strong>jadi post, reels, atau story</strong> dari <strong>sukistore.me</strong>';
+        document.getElementById("desc").innerHTML = 'download video instagram yang <strong>jadi post, reels, story</strong> dari <strong>sukistore.me</strong>';
         document.getElementById("instagramForm").classList.remove("hidden");
       }
       toggleMenu();
     }
-  </script>
 
-  <script>
     async function resolveFinalURL(u) {
       if (u.includes("vt.tiktok.com")) {
         try {
@@ -160,12 +167,13 @@
       const input = document.getElementById("tiktokURL").value.trim();
       if (!input) return alert("tempel link tiktok dulu!");
       const finalURL = await resolveFinalURL(input);
-      fetch(`https://tikwm.com/api/?url=${encodeURIComponent(finalURL)}`)
+      fetch(`https://tikslide.vercel.app/api/download?url=${encodeURIComponent(finalURL)}`)
         .then(r => r.json())
         .then(d => {
-          if (d?.data?.play) {
-            document.getElementById("tiktokResult").innerHTML =
-              `<a href="${d.data.play}" target="_blank"><button>Download Now</button></a>`;
+          if (d && d.medias?.length > 0) {
+            document.getElementById("tiktokResult").innerHTML = d.medias.map((media, i) =>
+              `<a href="${media.url}" target="_blank"><button>Download Slide ${i + 1}</button></a>`
+            ).join('');
           } else {
             document.getElementById("tiktokResult").innerText = "video tidak ditemukan!";
           }
@@ -178,12 +186,13 @@
     async function downloadInstagram() {
       const input = document.getElementById("igURL").value.trim();
       if (!input) return alert("tempel link instagram dulu!");
-      fetch(`https://instagram-reel-api.onrender.com?url=${encodeURIComponent(input)}`)
+      fetch(`https://instaslideapi.vercel.app/api/download?url=${encodeURIComponent(input)}`)
         .then(r => r.json())
         .then(d => {
-          if (d?.download_link) {
-            document.getElementById("igResult").innerHTML =
-              `<a href="${d.download_link}" target="_blank"><button>Download Now</button></a>`;
+          if (d?.media?.length > 0) {
+            document.getElementById("igResult").innerHTML = d.media.map((m, i) =>
+              `<a href="${m.url}" target="_blank"><button>Download Slide ${i + 1}</button></a>`
+            ).join('');
           } else {
             document.getElementById("igResult").innerText = "video tidak ditemukan!";
           }
@@ -192,9 +201,7 @@
           document.getElementById("igResult").innerText = "gagal mengambil video";
         });
     }
-  </script>
 
-  <script>
     document.addEventListener("mousemove", e => {
       const x = (e.clientX / window.innerWidth - 0.5) * 20;
       const y = (e.clientY / window.innerHeight - 0.5) * 20;
