@@ -112,6 +112,11 @@
       background: rgba(255,255,255,0.1);
     }
     .hidden { display: none; }
+    .image-gallery img {
+      max-width: 100px;
+      margin: 5px;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body class="fadein">
@@ -178,13 +183,21 @@
       for (const link of links) {
         let url = await resolveFinalURL(link);
         try {
-          const res = await fetch(`https://tikslide.vercel.app/api/download?url=${encodeURIComponent(url)}`);
+          const res = await fetch(`https://tikwm.com/api/?url=${encodeURIComponent(url)}`);
           const data = await res.json();
-          if (data && data.medias?.length > 0) {
+          if (data && data.data) {
             output += `<p><strong>Link:</strong> ${url}</p>`;
-            data.medias.forEach((m, i) => {
-              output += `<a href="${m.url}" target="_blank"><button>Download Slide ${i + 1}</button></a>`;
-            });
+            if (data.data.images && data.data.images.length > 0) {
+              output += '<div class="image-gallery">';
+              for (const img of data.data.images) {
+                output += `<a href="${img}" download><img src="${img}" alt="img" /></a>`;
+              }
+              output += '</div>';
+            } else if (data.data.play) {
+              output += `<a href="${data.data.play}" target="_blank"><button>Download Now</button></a>`;
+            } else {
+              output += `<p>⚠️ Tidak ada media ditemukan untuk: ${url}</p>`;
+            }
           } else {
             output += `<p>⚠️ Gagal untuk link: ${url}</p>`;
           }
