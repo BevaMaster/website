@@ -132,8 +132,9 @@
     <p id="desc">download video tiktok tanpa watermark dari <strong>sukistore.me</strong></p>
 
     <div id="tiktokForm">
-      <textarea id="tiktokURL" rows="4" placeholder="tempel link tiktok.."></textarea>
-      <button onclick="multiDownloadTiktok()">Download Semua</button>
+      <textarea id="tiktokURL" rows="4" placeholder="tempel link tiktok.."></textarea><br>
+      <button onclick="multiDownloadTiktok('video')">Download Video</button>
+      <button onclick="multiDownloadTiktok('audio')">Download Audio</button>
       <div id="tiktokResult" style="margin-top:20px;"></div>
     </div>
 
@@ -173,7 +174,7 @@
       return u;
     }
 
-    async function multiDownloadTiktok() {
+    async function multiDownloadTiktok(type = 'video') {
       const input = document.getElementById("tiktokURL").value.trim();
       if (!input) return alert("tempel link tiktok dulu!");
       const links = input.split('\n').map(l => l.trim()).filter(Boolean);
@@ -187,25 +188,20 @@
           const data = await res.json();
           if (data && data.data) {
             output += `<p><strong>Link:</strong> ${url}</p>`;
-            if (data.data.images && data.data.images.length > 0) {
-              output += '<div class="image-gallery">';
-              for (const img of data.data.images) {
-                output += `<a href="${img}" download><img src="${img}" alt="img" /></a>`;
-              }
-              output += '</div>';
-            } else if (data.data.play) {
-              output += `<a href="${data.data.play}" target="_blank"><button>Download Now</button></a>`;
+            if (type === 'audio' && data.data.music) {
+              output += `<a href="${data.data.music}" target="_blank"><button>Download Audio 🎵</button></a>`;
+            } else if (type === 'video' && data.data.play) {
+              output += `<a href="${data.data.play}" target="_blank"><button>Download Video 📹</button></a>`;
             } else {
-              output += `<p>⚠️ Tidak ada media ditemukan untuk: ${url}</p>`;
+              output += `<p>⚠️ Media tidak ditemukan untuk: ${url}</p>`;
             }
           } else {
-            output += `<p>⚠️ Gagal untuk link: ${url}</p>`;
+            output += `<p>⚠️ Gagal mengambil data untuk: ${url}</p>`;
           }
         } catch {
           output += `<p>❌ Error mengambil: ${url}</p>`;
         }
       }
-
       document.getElementById("tiktokResult").innerHTML = output;
     }
 
