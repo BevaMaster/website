@@ -22,9 +22,7 @@
     });
   </script>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -34,9 +32,7 @@
       overflow-x: hidden;
       transition: transform 0.1s;
     }
-    .fadein {
-      animation: fadeIn 1.3s ease-in-out both;
-    }
+    .fadein { animation: fadeIn 1.3s ease-in-out both; }
     @keyframes fadeIn {
       0% { opacity: 0; transform: scale(0.98); }
       100% { opacity: 1; transform: scale(1); }
@@ -63,14 +59,10 @@
       color: white;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
-    textarea {
+    textarea, input {
       width: 80%;
       margin: 10px 0;
       resize: vertical;
-    }
-    input {
-      width: 80%;
-      margin: 10px 0;
     }
     button:hover {
       background: rgba(255, 255, 255, 0.2);
@@ -133,8 +125,9 @@
 
     <div id="tiktokForm">
       <textarea id="tiktokURL" rows="4" placeholder="tempel link tiktok.."></textarea><br>
-      <button onclick="multiDownloadTiktok('video')">Download Now</button>
+      <button onclick="multiDownloadTiktok('video')">Download Video</button>
       <button onclick="multiDownloadTiktok('audio')">Download Audio</button>
+      <button onclick="multiDownloadTiktok('photo')">Download Foto</button>
       <div id="tiktokResult" style="margin-top:20px;"></div>
     </div>
 
@@ -185,23 +178,45 @@
         let url = await resolveFinalURL(link);
         try {
           const res = await fetch(`https://tikwm.com/api/?url=${encodeURIComponent(url)}`);
-          const data = await res.json();
-          if (data && data.data) {
-            output += `<p><strong>Link:</strong> ${url}</p>`;
-            if (type === 'audio' && data.data.music) {
-              output += `<a href="${data.data.music}" target="_blank"><button>Download Audio 🎵</button></a>`;
-            } else if (type === 'video' && data.data.play) {
-              output += `<a href="${data.data.play}" target="_blank"><button>Download Video 📹</button></a>`;
-            } else {
-              output += `<p>⚠️ Media tidak ditemukan untuk: ${url}</p>`;
-            }
-          } else {
+          const json = await res.json();
+          const data = json.data;
+          if (!data) {
             output += `<p>⚠️ Gagal mengambil data untuk: ${url}</p>`;
+            continue;
+          }
+
+          output += `<p><strong>Link:</strong> ${url}</p>`;
+
+          if (type === 'audio') {
+            if (data.music) {
+              output += `<a href="${data.music}" target="_blank"><button>Download Audio 🎵</button></a>`;
+            } else {
+              output += `<p>⚠️ Tidak ada audio untuk: ${url}</p>`;
+            }
+          } else if (type === 'video') {
+            if (data.play) {
+              if (data.images && data.images.length > 0) {
+                output += `<p>⚠️ Itu link foto, bukan video. Coba pilih tombol Foto!</p>`;
+              } else {
+                output += `<a href="${data.play}" target="_blank"><button>Download Video 📹</button></a>`;
+              }
+            } else {
+              output += `<p>⚠️ Tidak ada video untuk: ${url}</p>`;
+            }
+          } else if (type === 'photo') {
+            if (data.images && data.images.length > 0) {
+              data.images.forEach((img, i) => {
+                output += `<a href="${img}" target="_blank"><button>Foto ${i+1}</button></a> `;
+              });
+            } else {
+              output += `<p>⚠️ Itu bukan slide foto, tapi video. Coba pilih tombol Video!</p>`;
+            }
           }
         } catch {
           output += `<p>❌ Error mengambil: ${url}</p>`;
         }
       }
+
       document.getElementById("tiktokResult").innerHTML = output;
     }
 
