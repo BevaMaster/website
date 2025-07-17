@@ -20,12 +20,6 @@
       margin-top: 10vh;
       position: relative;
       z-index: 1;
-      animation: fadeIn 1s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
 
     .logo {
@@ -174,19 +168,18 @@
       fetch(`https://tikwm.com/api/?url=${encodeURIComponent(finalURL)}`)
         .then(r => r.json())
         .then(d => {
-          if (d?.data?.images && d.data.images.length > 0) {
-            const imageList = d.data.images.map(src => `<img src="${src}" style="max-width:100px; margin:5px; border-radius:10px" />`).join("");
-            document.getElementById("tiktokResult").innerHTML =
-              `<div style="background: rgba(255,255,255,0.05); padding:20px; border-radius:15px; backdrop-filter: blur(10px);">
-                <div>${imageList}</div>
-                <div style="margin-top:10px; color:#ccc;">KLIK KANAN / TEKAN FOTO UNTUK DOWNLOAD</div>
-              </div>`;
-          } else if (d?.data?.play) {
+          if (d?.data?.play) {
             const videoUrl = d.data.play;
+
+            const link = document.createElement("a");
+            link.href = videoUrl;
+            link.download = "tiktok.mp4";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
             document.getElementById("tiktokResult").innerHTML =
-              `<video controls style="width:80%; border-radius:15px; box-shadow:0 0 10px rgba(0,0,0,0.5);">
-                <source src="${videoUrl}" type="video/mp4" />
-              </video>`;
+              `<div style="color:white">video siap didownload 😎</div>`;
           } else {
             document.getElementById("tiktokResult").innerText = "video gak ketemu 😢";
           }
