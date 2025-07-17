@@ -53,7 +53,7 @@
       vertical-align: middle;
       margin-left: 8px;
     }
-    input, button {
+    input, textarea, button {
       font-size: 16px;
       padding: 10px;
       border: none;
@@ -62,6 +62,11 @@
       background: rgba(255, 255, 255, 0.1);
       color: white;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    textarea {
+      width: 80%;
+      margin: 10px 0;
+      resize: vertical;
     }
     input {
       width: 80%;
@@ -122,8 +127,8 @@
     <p id="desc">download video tiktok tanpa watermark dari <strong>sukistore.me</strong></p>
 
     <div id="tiktokForm">
-      <input id="tiktokURL" placeholder="tempel link tiktok disini ya..." />
-      <button onclick="downloadTiktok()">Download</button>
+      <textarea id="tiktokURL" rows="4" placeholder="tempel banyak link tiktok disini, pisahkan enter..."></textarea>
+      <button onclick="multiDownloadTiktok()">Download Semua</button>
       <div id="tiktokResult" style="margin-top:20px;"></div>
     </div>
 
@@ -163,31 +168,38 @@
       return u;
     }
 
-    async function downloadTiktok() {
+    async function multiDownloadTiktok() {
       const input = document.getElementById("tiktokURL").value.trim();
       if (!input) return alert("tempel link tiktok dulu!");
-      const finalURL = await resolveFinalURL(input);
-      fetch(`https://tikslide.vercel.app/api/download?url=${encodeURIComponent(finalURL)}`)
-        .then(r => r.json())
-        .then(d => {
-          if (d && d.medias?.length > 0) {
-            document.getElementById("tiktokResult").innerHTML = d.medias.map((media, i) =>
-              `<a href="${media.url}" target="_blank"><button>Download Slide ${i + 1}</button></a>`
-            ).join('');
+      const links = input.split('\n').map(l => l.trim()).filter(Boolean);
+      document.getElementById("tiktokResult").innerHTML = "⏳ Sedang memproses semua link...";
+
+      let output = '';
+      for (const link of links) {
+        let url = await resolveFinalURL(link);
+        try {
+          const res = await fetch(`https://tikslide.vercel.app/api/download?url=${encodeURIComponent(url)}`);
+          const data = await res.json();
+          if (data && data.medias?.length > 0) {
+            output += `<p><strong>Link:</strong> ${url}</p>`;
+            data.medias.forEach((m, i) => {
+              output += `<a href="${m.url}" target="_blank"><button>Download Slide ${i + 1}</button></a>`;
+            });
           } else {
-            document.getElementById("tiktokResult").innerText = "video tidak ditemukan!";
+            output += `<p>⚠️ Gagal untuk link: ${url}</p>`;
           }
-        })
-        .catch(() => {
-          document.getElementById("tiktokResult").innerText = "gagal mengambil video";
-        });
+        } catch {
+          output += `<p>❌ Error mengambil: ${url}</p>`;
+        }
+      }
+
+      document.getElementById("tiktokResult").innerHTML = output;
     }
 
     document.addEventListener("mousemove", e => {
       const x = (e.clientX / window.innerWidth - 0.5) * 20;
       const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      document.body.style.transform =
-        `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
+      document.body.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
     });
   </script>
 </body>
