@@ -181,7 +181,7 @@
           const json = await res.json();
           const data = json.data;
           if (!data) {
-            output += `<p>⚠️ Gagal mengambil data untuk: ${url}</p>`;
+            output += `<p>⚠️ gagal mengambil data untuk: ${url}</p>`;
             continue;
           }
 
@@ -191,17 +191,17 @@
             if (data.music) {
               output += `<a href="${data.music}" target="_blank"><button>Download Audio 🎵</button></a>`;
             } else {
-              output += `<p>⚠️ Tidak ada audio untuk: ${url}</p>`;
+              output += `<p>⚠️ tidak ada audio untuk: ${url}</p>`;
             }
           } else if (type === 'video') {
             if (data.play) {
               if (data.images && data.images.length > 0) {
-                output += `<p>⚠️ Itu link foto, bukan video. Coba pilih tombol Foto!</p>`;
+                output += `<p>⚠️ itu link foto bree, bukan video. Coba pilih tombol Foto!</p>`;
               } else {
                 output += `<a href="${data.play}" target="_blank"><button>Download Video 📹</button></a>`;
               }
             } else {
-              output += `<p>⚠️ Tidak ada video untuk: ${url}</p>`;
+              output += `<p>⚠️ tidak ada video untuk: ${url}</p>`;
             }
           } else if (type === 'photo') {
             if (data.images && data.images.length > 0) {
@@ -209,11 +209,11 @@
                 output += `<a href="${img}" target="_blank"><button>Foto ${i+1}</button></a> `;
               });
             } else {
-              output += `<p>⚠️ Itu bukan slide foto, tapi video. Coba pilih tombol Video!</p>`;
+              output += `<p>⚠️ itu bukan slide foto bre, tapi video. coba pilih tombol Video!</p>`;
             }
           }
         } catch {
-          output += `<p>❌ Error mengambil: ${url}</p>`;
+          output += `<p>❌ error mengambil: ${url}</p>`;
         }
       }
 
