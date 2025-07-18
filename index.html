@@ -146,7 +146,7 @@
     </div>
 
     <div id="instagramForm" class="hidden">
-      <input id="igURL" disabled value="Instagram lagi mt 😴" />
+      <input id="igURL" disabled value="Instagram lagi istirahat 😴" />
       <button disabled>Maintenance</button>
       <div id="igResult" style="margin-top:20px;color:#ccc;font-style:italic;">Harap bersabar ya!</div>
     </div>
@@ -213,9 +213,7 @@
             output += data.music
               ? `<a href="${data.music}" target="_blank"><button>Download Audio 🎵</button></a>`
               : `<p>⚠️ gak nemu audio-nya buat: ${url}</p>`;
-          }
-
-          else if (type === 'video') {
+          } else if (type === 'video') {
             if (data.play) {
               if (data.images && data.images.length > 0) {
                 output += `<p>⚠️ itu kayaknya foto bre, bukan video. coba klik tombol Foto 🖼️ ya!</p>`;
@@ -225,9 +223,7 @@
             } else {
               output += `<p>⚠️ gak nemu video-nya buat: ${url}</p>`;
             }
-          }
-
-          else if (type === 'photo') {
+          } else if (type === 'photo') {
             if (data.images && data.images.length > 0) {
               data.images.forEach((img, i) => {
                 output += `<a href="${img}" target="_blank"><button>Foto ${i + 1}</button></a> `;
