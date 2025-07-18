@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+i<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -175,19 +175,16 @@
       document.getElementById("tiktokResult").innerHTML = "⏳ lagi diproses sabar yee...";
 
       let output = '';
-
       for (const link of links) {
         let url = await resolveFinalURL(link);
-
         try {
           const res = await fetch(`https://tikwm.com/api/?url=${encodeURIComponent(url)}`);
           const json = await res.json();
           const data = json.data;
-
           if (!data) {
-            output += `<p>⚠️ gagal ambil data buat: ${url}</p>`;
+            output += `<p>⚠️ gagal mengambil data untuk: ${url}</p>`;
             continue;
-          }
+    }
 
           output += `<p><strong>Link:</strong> ${url}</p>`;
 
